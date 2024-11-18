@@ -125,35 +125,57 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Método para construir una fila de categorías
-  Widget _buildCategoryRow(List<Map<String, dynamic>> categories) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: categories.map((category) {
-          return Expanded(
+Widget _buildCategoryRow(List<Map<String, dynamic>> categories) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: categories.map((category) {
+        return Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5), // Espaciado lateral
             child: Column(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    category['imagePath'],
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  category['title'],
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        category['imagePath'],
+                        height: 100,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: 10,
+                      left: 10,
+                      child: Text(
+                        category['title'],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(1, 1),
+                              blurRadius: 2,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          );
-        }).toList(),
-      ),
-    );
-  }
+          ),
+        );
+      }).toList(),
+    ),
+  );
+}
 
   // Método para construir una lista de opciones
   Widget _buildOptionListTile(IconData icon, String title) {

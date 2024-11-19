@@ -10,6 +10,9 @@ class HomeScreen extends StatelessWidget {
       {'icon': Icons.store, 'title': 'Tienda'},
       {'icon': Icons.directions, 'title': 'Cómo llegar'},
       {'icon': Icons.schedule, 'title': 'Horario de apertura'},
+      {'icon': Icons.auto_awesome, 'title': 'Flash Pass'},
+      {'icon': Icons.beach_access_rounded, 'title': 'Zona VIP'},
+      {'icon': Icons.schedule, 'title': 'Horario de apertura'},
       {'icon': Icons.miscellaneous_services, 'title': 'Otros servicios'},
     ];
 
@@ -80,14 +83,17 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                        backgroundColor: Colors.amber,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20)
+                          ),
                         ),
                       ),
                       icon: const Icon(Icons.search, color: Colors.white),
@@ -98,16 +104,18 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {},
                     ),
                   ),
-                  const SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                        backgroundColor: Colors.amber,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomRight: Radius.circular(20)
+                          ),
                         ),
                       ),
-                      icon: const Icon(Icons.rocket, color: Colors.white),
+                      icon: const Icon(Icons.confirmation_num_outlined, color: Colors.white),
                       label: const Text(
                         'Mis entradas',
                         style: TextStyle(color: Colors.white),

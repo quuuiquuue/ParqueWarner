@@ -43,25 +43,25 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ];
 
-@override
-void initState() {
-  super.initState();
-  _scrollController.addListener(() {
-    // Controlar la visibilidad del botón de flecha hacia abajo
-    if (_scrollController.position.atEdge) {
-      bool isBottom = _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
-      setState(() {
-        // Si estás en la parte inferior, oculta el botón
-        _showDownArrow = !isBottom;
-      });
-    } else {
-      setState(() {
-        _showDownArrow = true;
-      });
-    }
-  });
-}
-
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      // Controlar la visibilidad del botón de flecha hacia abajo
+      if (_scrollController.position.atEdge) {
+        bool isTop = _scrollController.position.pixels == 0;
+        bool isBottom = _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
+        setState(() {
+          // Si estás en la parte inferior, oculta el botón
+          _showDownArrow = !isBottom;
+        });
+      } else {
+        setState(() {
+          _showDownArrow = true;
+        });
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -75,22 +75,26 @@ void initState() {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          ListView(
+          // SingleChildScrollView para el contenido desplazable
+          SingleChildScrollView(
             controller: _scrollController,
-            children: [
-              _buildHeader(),
-              _buildCategoryRow(
-                  categories.sublist(0, 2)), // Primera fila de categorías
-              _buildCategoryRow(
-                  categories.sublist(2)), // Segunda fila de categorías
-              ..._buildOptionList(), // Lista de opciones completa
-            ],
+            child: Column(
+              children: [
+                // El encabezado es fijo
+                _buildHeader(),
+                // Aquí colocamos las categorías
+                _buildCategoryRow(categories.sublist(0, 2)), // Primera fila de categorías
+                _buildCategoryRow(categories.sublist(2)), // Segunda fila de categorías
+                // Lista de opciones
+                ..._buildOptionList(), // Lista de opciones completa
+              ],
+            ),
           ),
+          // Botón flotante de flecha hacia abajo
           if (_showDownArrow)
             Positioned(
               bottom: 20,
-              left: MediaQuery.of(context).size.width / 2 -
-                  28, // Centrado horizontalmente
+              left: MediaQuery.of(context).size.width / 2 - 28, // Centrado horizontalmente
               child: FloatingActionButton(
                 onPressed: () {
                   _scrollController.animateTo(
@@ -110,38 +114,41 @@ void initState() {
 
   // Método para construir el encabezado
   Widget _buildHeader() {
-    return Stack(
-      children: [
-        Container(
-          height: 200,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.blue.shade900, Colors.blue],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+    return Container(
+      height: 200,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blue.shade900, Colors.blue],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Icon(Icons.arrow_back, color: Colors.white),
+                Image.asset(
+                  'assets/images/warner-beach-logo.png',
+                  width: 150,
+                  height: 80,
+                ),
+                const Icon(Icons.notifications, color: Colors.white),
+              ],
             ),
           ),
-        ),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(Icons.arrow_back, color: Colors.white),
-                  Image.asset(
-                    'assets/images/warner-beach-logo.png',
-                    width: 150,
-                    height: 80,
-                  ),
-                  const Icon(Icons.notifications, color: Colors.white),
-                ],
-              ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.only(bottom: 13, top: 15),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(topLeft:Radius.circular(20), topRight: Radius.circular(20))
             ),
-            const SizedBox(height: 20),
-            Padding(
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -188,9 +195,9 @@ void initState() {
                 ],
               ),
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 

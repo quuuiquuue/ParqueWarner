@@ -43,23 +43,25 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      // Controlar la visibilidad del botón de flecha hacia abajo
-      if (_scrollController.position.atEdge) {
-        bool isTop = _scrollController.position.pixels == 0;
-        setState(() {
-          _showDownArrow = !isTop;
-        });
-      } else {
-        setState(() {
-          _showDownArrow = true;
-        });
-      }
-    });
-  }
+@override
+void initState() {
+  super.initState();
+  _scrollController.addListener(() {
+    // Controlar la visibilidad del botón de flecha hacia abajo
+    if (_scrollController.position.atEdge) {
+      bool isBottom = _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
+      setState(() {
+        // Si estás en la parte inferior, oculta el botón
+        _showDownArrow = !isBottom;
+      });
+    } else {
+      setState(() {
+        _showDownArrow = true;
+      });
+    }
+  });
+}
+
 
   @override
   void dispose() {
